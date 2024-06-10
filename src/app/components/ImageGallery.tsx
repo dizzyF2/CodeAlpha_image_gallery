@@ -2,13 +2,20 @@
 
 import Image from 'next/image'
 import React, { useState } from 'react'
-import { Images } from '../constants'
+import { Images, ImagesFilter } from '../constants'
 import { ChevronLeft, ChevronRight, CircleXIcon } from 'lucide-react';
+
+
 
 function ImageGallery() {
 
     const [slide, setSlide] = useState(0);
     const [showImage, setShowImage] = useState(false);
+    const [ite, setIte] = useState(Images);
+    
+    //const menuItem = [new Set(Images.map((item:any) => item.category))]
+
+
 
     const handleShowImage = (index:any) =>{
         setSlide(index);
@@ -27,8 +34,38 @@ function ImageGallery() {
         slide + 1 === Images.length ? setSlide(0) : setSlide(slide + 1)
     }
 
+    const filterItem = (fil:string) =>{
+            const update = Images.filter((e) =>{
+                return e.category === fil
+            })
+            setIte(update)
+        }
+
+        const showAll = (fil:string) =>{
+            const update = Images.filter((e) =>{
+                return e.categoryAll === fil
+            })
+            setIte(update)
+        }
+        
+
     return (
-        <>
+        <div className='flex flex-col items-center gap-8 p-24'>
+            {/* Filters */}
+            <>
+                <div className="flex flex-wrap justify-center p-3 gap-3 gap-y-8 gap-x-3 m-1 mt-4">
+                    <button onClick={()=>showAll("All")} className="cursor-pointer hover:opacity-100 hover:font-bold hover:tracking-[0.6px] p-2 hover:border hover:border-solid hover:border-blue-300 hp-1 font-semibold bg-[#24252e] text-white text-center text-[1.05rem] capitalize opacity-50 rounded-md duration-200 w-36">All</button>
+                    {ImagesFilter.map((item:any)=>(
+                        <button
+                        key={item.key}
+                        onClick={() => filterItem(item.filter)}
+                        className="cursor-pointer hover:opacity-100 hover:font-bold hover:tracking-[0.6px] p-2 hover:border hover:border-solid hover:border-blue-300 hp-1 font-semibold bg-[#24252e] text-white text-center text-[1.05rem] capitalize opacity-50 rounded-md duration-200 w-36"
+                        >
+                            {item.filter}
+                        </button>
+                    ))}
+                </div>
+            </>
             {showImage &&
                 <div className='fixed inset-0 flex flex-col items-center justify-center p-5 gap-2 z-[999] bg-[rgba(0,0,0,0.8)] w-full h-full'>
                     <div className='flex justify-center items-center'>
@@ -41,8 +78,9 @@ function ImageGallery() {
                     </div>
                 </div>
             }
+            {/* Images */}
             <div className='flex flex-wrap justify-center gap-2'>
-                {Images.map((item:any, index:any)=>{
+                {ite.map((item:any, index:any)=>{
                     return(
                         <div key={index} className="relative overflow-hidden h-64 w-[400px] " onClick={()=>handleShowImage(index)}>
                         <Image 
@@ -56,7 +94,7 @@ function ImageGallery() {
                     )
                 })}
             </div>
-        </>
+        </div>
     )
     }
 
