@@ -11,9 +11,8 @@ function ImageGallery() {
 
     const [slide, setSlide] = useState(0);
     const [showImage, setShowImage] = useState(false);
-    const [ite, setIte] = useState(Images);
+    const [image, setImage] = useState(Images);
     
-    //const menuItem = [new Set(Images.map((item:any) => item.category))]
 
 
 
@@ -38,14 +37,7 @@ function ImageGallery() {
             const update = Images.filter((e) =>{
                 return e.category === fil
             })
-            setIte(update)
-        }
-
-        const showAll = (fil:string) =>{
-            const update = Images.filter((e) =>{
-                return e.categoryAll === fil
-            })
-            setIte(update)
+            setImage(update)
         }
         
 
@@ -54,7 +46,7 @@ function ImageGallery() {
             {/* Filters */}
             <>
                 <div className="flex flex-wrap justify-center p-3 gap-3 gap-y-8 gap-x-3 m-1 mt-4">
-                    <button onClick={()=>showAll("All")} className="cursor-pointer hover:opacity-100 hover:font-bold hover:tracking-[0.6px] p-2 hover:border hover:border-solid hover:border-blue-300 hp-1 font-semibold bg-[#24252e] text-white text-center text-[1.05rem] capitalize opacity-50 rounded-md duration-200 w-36">All</button>
+                    <button onClick={()=>setImage(Images)} className="cursor-pointer hover:opacity-100 hover:font-bold hover:tracking-[0.6px] p-2 hover:border hover:border-solid hover:border-blue-300 hp-1 font-semibold bg-[#24252e] text-white text-center text-[1.05rem] capitalize opacity-50 rounded-md duration-200 w-36">All</button>
                     {ImagesFilter.map((item:any)=>(
                         <button
                         key={item.key}
@@ -80,7 +72,7 @@ function ImageGallery() {
             }
             {/* Images */}
             <div className='flex flex-wrap justify-center gap-2'>
-                {ite.map((item:any, index:any)=>{
+                {image.map((item:any, index:any)=>{
                     return(
                         <div key={index} className="relative overflow-hidden h-64 w-[400px] " onClick={()=>handleShowImage(index)}>
                         <Image 
